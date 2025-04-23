@@ -3,16 +3,16 @@ import { User } from "@/types/user";
 import { USERS_API } from "@/constants/api";
 import UserCard from "@/components/UserCard";
 import Navbar from "@/components/NavbarFix";
-//this basically defines shapes of props your component will get recive
+
 interface Props {
-  users: User[];//array of user objects from api
+  users: User[];
 }
-//Data Fetching
-//Func runs on every req  
+
+// This runs on every request (Server-side Rendering)
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const res = await fetch(USERS_API);
-  const users = await res.json();//users is an rayyay of objects with value
-  return { props: { users } };//returnig fetched users as props to page means page will recieve always fresh updated data
+  const users = await res.json();
+  return { props: { users } };
 };
 
 export default function ServerSideUsers({ users }: Props) {

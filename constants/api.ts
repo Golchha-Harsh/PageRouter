@@ -1,0 +1,1 @@
+export const USERS_API="https://67eb9aacaa794fb3222ad9c2.mockapi.io/users";
