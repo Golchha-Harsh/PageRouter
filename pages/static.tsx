@@ -1,19 +1,22 @@
 import { GetStaticProps } from "next";
 import { User } from "@/types/user";
-import { USERS_API } from "@/constants/api";
+import { fetchUsers } from "@/lib/api"; // imported from lib/api
 import UserCard from "@/components/UserCard";
 import Navbar from "@/components/NavbarFix";
 
 interface Props {
   users: User[];
 }
-//this function is only executed once when we run build only
-//used to pre-render page at build time with data already have
-//In cache it stored and serves as static file 304
+
+// this function is only executed once when we run build only
+// used to pre-render page at build time with data already have
+// In cache it stored and serves as full static html file 304
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const res = await fetch(USERS_API);
-  const users = await res.json();
-  return { props: { users } };
+  const users = await fetchUsers(); // it fetches my user data and we will send it as props pages served from cdn
+  return { 
+    props: { users }, 
+    // revalidate: 10 //ISR
+};
 };
 
 export default function StaticUsers({ users }: Props) {
@@ -29,3 +32,4 @@ export default function StaticUsers({ users }: Props) {
     </div>
   );
 }
+//When you add new users to the API we need to rebuild the site to see them unless you use ISR
