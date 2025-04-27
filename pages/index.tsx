@@ -1,29 +1,34 @@
-import { GetServerSideProps } from "next";
-import { User } from "@/types/user";
-import { USERS_API } from "@/constants/api";
-import UserCard from "@/components/UserCard";
-import Navbar from "@/components/NavbarFix";
-//this basically defines shapes of props your component will get recive
-interface Props {
-  users: User[];//array of user objects from api
-}
-//Data Fetching
-//Func runs on every req  
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const res = await fetch(USERS_API);
-  const users = await res.json();//users is an rayyay of objects with value
-  return { props: { users } };//returnig fetched users as props to page means page will recieve always fresh updated data
-};
+import Link from "next/link";
+import { Navbar } from "@/components";
+import {
+  PAGE_WRAPPER,
+  CONTENT_WRAPPER,
+  PAGE_TITLE,
+  PAGE_SUBTITLE,
+  LINK_BUTTON,
+  LINK_GROUP,
+} from "@/constants/classNames";
+import { HOME_PAGE_CONTENT } from "@/constants";
 
-export default function ServerSideUsers({ users }: Props) {
+export default function Home() {
   return (
-    <div className="max-w-5xl mx-auto px-4">
-      <Navbar />
-      <h1 className="text-3xl font-bold my-6">Users (Server Side)</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {users.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
+    <div className={PAGE_WRAPPER}>
+      <div className={CONTENT_WRAPPER}>
+        <Navbar />
+        <div className="text-center">
+          <h1 className={PAGE_TITLE}>{HOME_PAGE_CONTENT.TITLE}</h1>
+          <p className={PAGE_SUBTITLE}>
+            {HOME_PAGE_CONTENT.SUBTITLE}
+          </p>
+          <div className={LINK_GROUP}>
+            <Link href="/static" className={LINK_BUTTON}>
+              {HOME_PAGE_CONTENT.STATIC_USERS_LINK}
+            </Link>
+            <Link href="/serverside" className={LINK_BUTTON}>
+              {HOME_PAGE_CONTENT.SERVER_SIDE_USERS_LINK}
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

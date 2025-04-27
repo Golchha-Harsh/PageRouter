@@ -1,9 +1,6 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+module.exports = {
   reactStrictMode: true,
-  images:{
+  images: {
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,9 +11,7 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
         pathname: '/**',
-      },     
-    ]
+      },
+    ],
   },
 };
-
-export default nextConfig;
